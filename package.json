@@ -1,0 +1,25 @@
+{
+  "name": "Blobby",
+  "version": "0.0.1",
+  "description": "A HTML5 multiplayer game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "make_client": "cd js/client; ../../node_modules/.bin/tsc ./main.ts --module AMD --sourceMap; cd ../..",
+    "make_server": "node_modules/.bin/tsc ./server.ts --module commonjs -- sourceMap",
+    "compile": "npm run-script make_client && npm run-script make_server",
+    "serve": "node ./server.js",
+    "build": "npm install && npm run-script compile && npm run-script serve"
+  },
+  "dependencies": {
+    "express": "4.9.7",
+    "mongodb": "^1.4.19",
+    "socket.io": "^1.1.0",
+    "body-parser": "~1.9.0"
+  },
+  "devDependencies": {
+    "typescript": "1.1.0-1"
+  },
+  "author": "Aaron Nech & Daniel Gorrie & Lincoln Doyle",
+  "license": "N/A"
+}
