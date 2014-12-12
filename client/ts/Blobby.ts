@@ -1,3 +1,5 @@
+///<reference path="../../def/phaser.d.ts"/>
+
 class Blobby {
 
     private game: Phaser.Game;
