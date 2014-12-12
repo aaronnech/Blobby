@@ -3,6 +3,7 @@
 *.js
 *.map
 !lib/*
+!client/lib/*
 
 # Created by https://www.gitignore.io
 
