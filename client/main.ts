@@ -1,4 +1,3 @@
-/**
- * Created by aaron on 12/12/14.
- */
-// LITTERALLY HEREEE
+import Blobby = require('./ts/Blobby');
+
+var game = new Blobby();
