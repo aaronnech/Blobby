@@ -3,6 +3,7 @@
 import Constants = require('./Constants');
 import Blob = require('./Blob');
 import BlobAction = require('./BlobAction');
+import CollisionManager = require('./CollisionManager');
 
 class Blobby {
     private static EVENTS : any = {
@@ -19,11 +20,14 @@ class Blobby {
     private shrap : Blob[];
     private socket : SocketIO.Server;
 
+    private collisionManager : CollisionManager;
+
     constructor(socket : SocketIO.Server) {
         this.socket = socket;
         this.blobs = {};
         this.eventQueue = {};
         this.shrap = [];
+        this.collisionManager = new CollisionManager();
         console.log('binding ' + Blobby.EVENTS.CLIENT_JOIN);
         this.socket.on(Blobby.EVENTS.CLIENT_JOIN, (client : SocketIO.Socket) => {
             this.onJoinClient(client);
@@ -60,6 +64,8 @@ class Blobby {
         for (var i = 0; i < this.shrap.length; i++) {
             this.shrap[i].update([]);
         }
+
+        toClient = this.collisionManager.processGameState(toClient);
 
         // Notify clients
         this.socket.sockets.emit(Blobby.EVENTS.UPDATE, {blobs : toClient, shrap : this.shrap});

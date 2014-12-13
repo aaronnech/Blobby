@@ -9,8 +9,8 @@ class CollisionManager {
 
 	public processGameState(gamestate : Blob[]) : Blob[] {
 		var newState = [];
-		for (int i = 0; i < gamestate.length; i++) {
-			for (int j = i + 1; j < gamestate.length; j++) {
+		for (var i = 0; i < gamestate.length; i++) {
+			for (var j = i + 1; j < gamestate.length; j++) {
 				if (i != j && this.isCollision(gamestate[i], gamestate[j])) {
 					var imass = gamestate[i].getMass();
 					var jmass = gamestate[j].getMass();
@@ -36,6 +36,7 @@ class CollisionManager {
 				}
 			}
 		}
+        return gamestate;
 	}
 
 	private isCollision(first : Blob, second : Blob) {
