@@ -25,3 +25,5 @@ class ServerSocket {
     }
 
 }
+
+export = ServerSocket;
