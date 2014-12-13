@@ -75,13 +75,19 @@ class Blob {
 			var v1x : number = (this.mass * this.velx - m2 * v2x) / m1;
 			var v1y : number = (this.mass * this.vely - m2 * v2y) / m1;
 
+
+            // calculate position of new blob
+            var dist : number = Math.sqrt(m1 / Math.PI) + Math.sqrt(m2 / Math.PI) + 1.0;
+            var nX : number = Math.cos(actions[i].getDirection()) * dist + this.posx;
+            var nY : number = Math.sin(actions[i].getDirection()) * dist + this.posy;
+
 			// update current blob's stats
 			this.mass = m1;
 			this.velx = v1x;
 			this.vely = v1y;
 
 			// Create new blob with the properties
-			newBlobs[newBlobs.length] = new Blob(Constants.BLOB_TYPE.JETTISONED, null, m2, v2x, v2y, this.posx, this.posy);
+			newBlobs[newBlobs.length] = new Blob(Constants.BLOB_TYPE.JETTISONED, null, m2, v2x, v2y, nX, nY);
 		}
 
 		this.posx += this.velx;
