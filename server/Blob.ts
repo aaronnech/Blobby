@@ -103,7 +103,9 @@ class Blob {
 		};
 	}
 
-
+	public setMass(newMass) : void {
+		this.mass = newMass;
+	}
 }
 
 export = Blob;
