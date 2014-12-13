@@ -13,33 +13,29 @@ class Blob {
 	private color : number;
 
 	// constructor for creating a user controlled blob
-	constructor(flag : boolean) {
-	    this.mass = Constants.DEFAULT_BLOB_MASS;
-	    this.velx = 0.0;
-	    this.vely = 0.0;
-	    this.color = this.generateColor();
-	    this.posx = Math.random() * Constants.WORLD_WIDTH;
-	    this.posy = Math.random() * Constants.WORLD_HEIGHT;
-	}
-
-	// zero argument constructor for creating dummy blobs in random directions
-	constructor() {
-	    this.mass = Math.random() * Constants.DEFAULT_BLOB_MASS;
-	    this.velx = Math.random() * 2 * Constants.MAX_INITIAL_VELOCITY - Constants.MAX_INITIAL_VELOCITY;
-	    this.vely = Math.random() * 2 * Constants.MAX_INITIAL_VELOCITY - Constants.MAX_INITIAL_VELOCITY;
-	    this.color = this.generateColor();
-	    this.posx = Math.random() * Constants.WORLD_WIDTH;
-	    this.posy = Math.random() * Constants.WORLD_HEIGHT;
-	}
-
-	// constructor for creating a specific dummy blob (jettisoned)
-	constructor(m : number, vx : number, vy : number, px : number, py : number) {
-		this.mass = m;
-		this.velx = vx;
-		this.vely = vy;
-		this.color = this.generateColor();
-		this.posx = px;
-		this.posy = py;
+	constructor(flag : Constants.BLOB_TYPE, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number) {
+		if (flag == Constants.BLOB_TYPE.USER) {
+		    this.mass = Constants.DEFAULT_BLOB_MASS;
+		    this.velx = 0.0;
+		    this.vely = 0.0;
+		    this.color = this.generateColor();
+		    this.posx = Math.random() * Constants.WORLD_WIDTH;
+		    this.posy = Math.random() * Constants.WORLD_HEIGHT;
+		} else if (flag == Constants.BLOB_TYPE.DUMMY) {
+		    this.mass = Math.random() * Constants.DEFAULT_BLOB_MASS;
+		    this.velx = Math.random() * 2 * Constants.MAX_INITIAL_VELOCITY - Constants.MAX_INITIAL_VELOCITY;
+		    this.vely = Math.random() * 2 * Constants.MAX_INITIAL_VELOCITY - Constants.MAX_INITIAL_VELOCITY;
+		    this.color = this.generateColor();
+		    this.posx = Math.random() * Constants.WORLD_WIDTH;
+		    this.posy = Math.random() * Constants.WORLD_HEIGHT;
+		} else { // Jettisoned
+			this.mass = m;
+			this.velx = vx;
+			this.vely = vy;
+			this.color = this.generateColor();
+			this.posx = px;
+			this.posy = py;
+		}
 	}
 
 	private generateColor() : number {
