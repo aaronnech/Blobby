@@ -13,7 +13,7 @@ class Blob {
 	private color : number;
 
 	// constructor for creating a user controlled blob
-	constructor(flag : Constants.BLOB_TYPE, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number) {
+	constructor(flag : number, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number) {
 		if (flag == Constants.BLOB_TYPE.USER) {
 		    this.mass = Constants.DEFAULT_BLOB_MASS;
 		    this.velx = 0.0;
