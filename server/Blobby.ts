@@ -36,13 +36,15 @@ class Blobby {
         }
 
         // Notify clients
-        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, this.blobs);
+        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, this.blobs.map((blob) => {
+            return blob.toJSON();
+        }));
     }
 
     private onJoinClient(client : SocketIO.Socket) {
         console.log('CLIENT JOINED: ' + client);
 
-        var blob : Blob = new Blob();
+        var blob : Blob = new Blob(Constants.BLOB_TYPE.USER);
         client['blobObject'] = blob;
 
         this.blobs.push(blob);
