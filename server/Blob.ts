@@ -97,6 +97,8 @@ class Blob {
 		return {
 			'x' : this.posx,
 			'y' : this.posy,
+			'vx' : this.velx,
+			'vy' : this.vely,
 			'mass' : this.mass,
 			'color' : this.color,
 			'id' : this.id
