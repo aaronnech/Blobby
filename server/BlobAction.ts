@@ -12,11 +12,11 @@ class BlobAction {
 	}
 
 	public getDuration() : number {
-		return duration;
+		return this.duration;
 	}
 
 	public getDirection() : number {
-		return direction;
+		return this.direction;
 	}
 }
 
