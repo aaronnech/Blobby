@@ -98,7 +98,7 @@ class Blob {
 			'x' : this.posx,
 			'y' : this.posy,
 			'mass' : this.mass,
-			'color' : this.color.toString(16),
+			'color' : this.color,
 			'id' : this.id
 		};
 	}
