@@ -116,7 +116,7 @@ class Blob {
 	/*GETTERS*/
 
 	public getMass() : number {
-		return this.mass
+		return this.mass;
 	}
 
 	public getPosx() : number {

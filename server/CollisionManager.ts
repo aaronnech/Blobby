@@ -40,8 +40,8 @@ class CollisionManager {
 	}
 
 	private isCollision(first : Blob, second : Blob) {
-		var r1 = Math.sqrt(first.getMass / Math.PI);
-		var r2 = Math.sqrt(second.getMass / Math.PI);
+		var r1 = Math.sqrt(first.getMass() / Math.PI);
+		var r2 = Math.sqrt(second.getMass() / Math.PI);
 
 		var eucDist = Math.sqrt(Math.pow((first.getPosy() - second.getPosy()), 2) + Math.pow((first.getPosy() - second.getPosy()), 2));
 
