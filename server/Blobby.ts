@@ -13,12 +13,16 @@ class Blobby {
     };
 
 
-    private blobs : Blob[];
+    private blobs : any;
+    private eventQueue : any;
+    private shrap : Blob[];
     private socket : SocketIO.Server;
 
     constructor(socket : SocketIO.Server) {
         this.socket = socket;
-        this.blobs = [];
+        this.blobs = {};
+        this.eventQueue = {};
+        this.shrap = [];
 
         this.bindSocketEvents();
     }
@@ -34,15 +38,18 @@ class Blobby {
 
     public update() {
         // Do update
-        for (var i : number = 0; i < this.blobs.length; i++) {
-            var newBlobs : Blob[] = this.blobs[i].update([]);
-            this.blobs.concat(newBlobs);
+
+        var toClient : any = [];
+        for (var id in this.blobs) {
+            if (this.blobs.hasOwnProperty(id)) {
+                var newBlobs : Blob[] = this.blobs[id].update([]);
+                this.shrap.concat(newBlobs);
+                toClient.push(this.blobs[id].toJSON());
+            }
         }
 
         // Notify clients
-        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, this.blobs.map((blob) => {
-            return blob.toJSON();
-        }));
+        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, toClient);
     }
 
     private onJoinClient(client : SocketIO.Socket) {
@@ -51,21 +58,26 @@ class Blobby {
         var blob : Blob = new Blob(Constants.BLOB_TYPE.USER, client.id);
         client['blobObject'] = blob;
 
-        this.blobs.push(blob);
+        this.blobs[client.id] = blob;
+        this.eventQueue[client.id] = [];
         client.emit(Blobby.EVENTS.START, {'blob' : blob.toJSON()});
 
         // Setup disconnect hook
-        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, (client : SocketIO.Socket) => {
+        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, () => {
             this.onExitClient(client);
         });
     }
 
-    private onClickAction(client : SocketIO.Socket) {
+    private onClickAction(data, client : SocketIO.Socket) {
         console.log('CLICK ACTION: ' + client);
+
+        this.eventQueue[client.id].push(new BlobAction(data.dx, data.dy, 2));
     }
 
     private onExitClient(client : SocketIO.Socket) {
         console.log('CLIENT LEFT: ' + client);
+        delete this.blobs[client.id];
+        delete this.eventQueue[client.id];
     }
 }
 
