@@ -2,6 +2,7 @@
 
 import Constants = require('./Constants');
 import Blob = require('./Blob');
+import BlobAction = require('./BlobAction');
 
 class Blobby {
     private static EVENTS : any = {
@@ -23,17 +24,22 @@ class Blobby {
         this.blobs = {};
         this.eventQueue = {};
         this.shrap = [];
-
-        this.bindSocketEvents();
-    }
-
-    private bindSocketEvents() {
+        console.log('binding ' + Blobby.EVENTS.CLIENT_JOIN);
         this.socket.on(Blobby.EVENTS.CLIENT_JOIN, (client : SocketIO.Socket) => {
             this.onJoinClient(client);
         });
-        this.socket.on(Blobby.EVENTS.CLICK, (client : SocketIO.Socket) => {
-            this.onClickAction(client);
+    }
+
+    private bindSocketEvents(client : SocketIO.Socket) {
+        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, () => {
+            this.onExitClient(client);
         });
+
+        client.on(Blobby.EVENTS.CLICK, (data) => {
+            console.log('CLICK EVENT ON SERVER');
+            this.onClickAction(data, client);
+        });
+
     }
 
     public update() {
@@ -42,14 +48,21 @@ class Blobby {
         var toClient : any = [];
         for (var id in this.blobs) {
             if (this.blobs.hasOwnProperty(id)) {
-                var newBlobs : Blob[] = this.blobs[id].update([]);
-                this.shrap.concat(newBlobs);
+                var newBlobs : Blob[] = this.blobs[id].update(this.eventQueue[id]);
+                for (var i : number = 0; i < newBlobs.length; i++) {
+                    this.shrap.push(newBlobs[i]);
+                }
                 toClient.push(this.blobs[id].toJSON());
+                this.eventQueue[id] = [];
             }
         }
 
+        for (var i = 0; i < this.shrap.length; i++) {
+            this.shrap[i].update([]);
+        }
+
         // Notify clients
-        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, toClient);
+        this.socket.sockets.emit(Blobby.EVENTS.UPDATE, {blobs : toClient, shrap : this.shrap});
     }
 
     private onJoinClient(client : SocketIO.Socket) {
@@ -60,17 +73,14 @@ class Blobby {
 
         this.blobs[client.id] = blob;
         this.eventQueue[client.id] = [];
-        client.emit(Blobby.EVENTS.START, {'blob' : blob.toJSON()});
+        client.emit(Blobby.EVENTS.START, blob.toJSON());
 
-        // Setup disconnect hook
-        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, () => {
-            this.onExitClient(client);
-        });
+
+        this.bindSocketEvents(client);
     }
 
     private onClickAction(data, client : SocketIO.Socket) {
         console.log('CLICK ACTION: ' + client);
-
         this.eventQueue[client.id].push(new BlobAction(data.dx, data.dy, 2));
     }
 

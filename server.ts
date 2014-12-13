@@ -1,20 +1,19 @@
 ///<reference path="./def/node.d.ts"/>
 ///<reference path="./def/express.d.ts"/>
 
-import express = require('express');
-import sockets = require('socket.io');
-import http = require('http');
 
 import Blobby = require('./server/Blobby');
 
-// Create app and server static
-var app = express();
+var express = require('express');
+var app = require('express')();
 app.use(express.static(__dirname + '/client'));
-
-var server = http.createServer(app).listen(3000);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 // create game
-var game : Blobby = new Blobby(sockets.listen(server));
+var game : Blobby = new Blobby(io);
+
+server.listen(3000);
 
 var ONE_FRAME_TIME = 1000 / 60 ;
 var loop = function() {
