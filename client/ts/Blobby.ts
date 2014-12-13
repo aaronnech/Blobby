@@ -7,6 +7,8 @@ class Blobby {
     private static SERVER_ADDRESS : string = 'localhost:3000';
     private game: Phaser.Game;
     private server : ServerSocket;
+    private id : string;
+
 
     constructor() {
         this.server = new ServerSocket(Blobby.SERVER_ADDRESS);
@@ -28,14 +30,16 @@ class Blobby {
 
     }
 
-    private onStartGame() {
+    private onStartGame(data) {
+        this.id = data.id;
         console.log('Game Started!');
     }
 
     private onDraw(data) {
-        console.log(data);
         for (var i = 0; i < data.length; i++) {
-
+            var blobData = data[i];
+            this.game.debug.geom(
+                new Phaser.Circle(blobData.x, blobData.y, Math.sqrt(blobData.mass/Math.PI)), blobData.color, true);
         }
     }
 
