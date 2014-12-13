@@ -25,8 +25,7 @@ class Blobby {
     }
 
     private onCreate() {
-        // var logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-        // logo.anchor.setTo(0.5, 0.5);
+
     }
 
     private onStartGame() {
@@ -34,6 +33,7 @@ class Blobby {
     }
 
     private onDraw(data) {
+        console.log(data);
         for (var i = 0; i < data.length; i++) {
 
         }

@@ -51,7 +51,7 @@ class Blob {
 		for (var i = 0; i < actions.length; i++) {
 
 			//update mass
-			var mp : number = getMassPercentage(actions[i].getDuration());
+			var mp : number = this.getMassPercentage(actions[i].getDuration());
 			var newBlobMass : number = mp + this.mass;
 			this.mass = (1 - mp) * this.mass;
 
