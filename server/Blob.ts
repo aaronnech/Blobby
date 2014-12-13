@@ -12,6 +12,7 @@ class Blob {
 	private posy : number;
 	private color : number;
 	private id : string;
+	private blobType : number;
 
 	// constructor for creating a user controlled blob
 	constructor(flag : number, i ?: string, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number) {
@@ -24,6 +25,7 @@ class Blob {
 			    this.posx = Math.random() * Constants.WORLD_WIDTH;
 			    this.posy = Math.random() * Constants.WORLD_HEIGHT;
 			    this.id = i;
+			    this.blobType = flag;
 		        break;
 		    }
 		    case Constants.BLOB_TYPE.JETTISONED: {
@@ -34,6 +36,7 @@ class Blob {
 				this.posx = px;
 				this.posy = py;
 				this.id = i;
+				this.blobType = flag;
 		    	break;
 		    }
 		    default: {
@@ -44,6 +47,7 @@ class Blob {
 			    this.posx = Math.random() * Constants.WORLD_WIDTH;
 			    this.posy = Math.random() * Constants.WORLD_HEIGHT;
 			    this.id = i;
+			    this.blobType = flag;
 		    }
 		}
 	}
@@ -108,6 +112,27 @@ class Blob {
 	public setMass(newMass) : void {
 		this.mass = newMass;
 	}
+
+	/*GETTERS*/
+
+	public getMass() : number {
+		return this.mass
+	}
+
+	public getPosx() : number {
+		return this.posx;
+	}
+
+	public getPosy() : number {
+		return this.posy;
+	}
+
+	public getType() : number {
+		return this.blobType;
+	}
+
+
+
 }
 
 export = Blob;
