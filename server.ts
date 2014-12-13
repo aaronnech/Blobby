@@ -11,7 +11,7 @@ import Blobby = require('./server/Blobby');
 var app = express();
 app.use(express.static(__dirname + '/client'));
 
-var server = new http.createServer(app).listen(3000);
+var server = http.createServer(app).listen(3000);
 
 // create game
 var game = new Blobby(sockets.listen(server));
