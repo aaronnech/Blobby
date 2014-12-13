@@ -68,7 +68,7 @@ class Blob {
 	}
 
 	private getMassPercentage(duration : number) {
-		var mp = 0.5 - (1 / (5 * Math.sqrt(duration) + 1);
+		var mp = 0.5 - (1 / (5 * Math.sqrt(duration) + 1));
 		return mp < 0.05 ? 0.05 : mp;
 	}
 
