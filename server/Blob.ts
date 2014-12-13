@@ -52,9 +52,10 @@ class Blob {
 	public update(actions : BlobAction[]) : Blob[] {
 		var newBlobs : Blob[] = [];
 
-		if (actions.length > 0) {
+		for (var i = 0; i < actions.length; i++) {
+
 			//update mass
-			var mp : number = getMassPercentage(action.duration);
+			var mp : number = getMassPercentage(actions[i].getDuration());
 			var newBlobMass : number = mp + this.mass;
 			this.mass = (1 - mp) * this.mass;
 
