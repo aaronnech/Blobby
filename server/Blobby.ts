@@ -24,8 +24,12 @@ class Blobby {
     }
 
     private bindSocketEvents() {
-        this.socket.on(Blobby.EVENTS.CLIENT_JOIN, this.onJoinClient);
-        this.socket.on(Blobby.EVENTS.CLICK, this.onClickAction);
+        this.socket.on(Blobby.EVENTS.CLIENT_JOIN, (client : SocketIO.Socket) => {
+            this.onJoinClient(client);
+        });
+        this.socket.on(Blobby.EVENTS.CLICK, (client : SocketIO.Socket) => {
+            this.onClickAction(client);
+        });
     }
 
     public update() {
@@ -44,14 +48,16 @@ class Blobby {
     private onJoinClient(client : SocketIO.Socket) {
         console.log('CLIENT JOINED: ' + client);
 
-        var blob : Blob = new Blob(Constants.BLOB_TYPE.USER);
+        var blob : Blob = new Blob(Constants.BLOB_TYPE.USER, client.id);
         client['blobObject'] = blob;
 
         this.blobs.push(blob);
         client.emit(Blobby.EVENTS.START, {'blob' : blob.toJSON()});
 
         // Setup disconnect hook
-        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, this.onExitClient);
+        client.on(Blobby.EVENTS.CLIENT_DISCONNECT, (client : SocketIO.Socket) => {
+            this.onExitClient(client);
+        });
     }
 
     private onClickAction(client : SocketIO.Socket) {
