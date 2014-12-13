@@ -9,7 +9,7 @@ class Blobby {
     private server : ServerSocket;
 
     constructor() {
-        this.server = new ServerSocket(Blobby.SERVER_ADDRESS, this.onConnect);
+        this.server = new ServerSocket(Blobby.SERVER_ADDRESS);
         this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: this.onPreload, create: this.onCreate });
 
         this.bindSocketEvents();
