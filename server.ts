@@ -14,4 +14,10 @@ app.use(express.static(__dirname + '/client'));
 var server = http.createServer(app).listen(3000);
 
 // create game
-var game = new Blobby(sockets.listen(server));
+var game : Blobby = new Blobby(sockets.listen(server));
+
+var ONE_FRAME_TIME = 1000 / 60 ;
+var loop = function() {
+    game.update();
+};
+setInterval(loop, ONE_FRAME_TIME);
