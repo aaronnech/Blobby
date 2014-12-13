@@ -14,7 +14,7 @@ class Blob {
 	private id : string;
 
 	// constructor for creating a user controlled blob
-	constructor(flag : number, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number, i ?: string) {
+	constructor(flag : number, i ?: string, m ?: number, vx ?: number, vy ?: number, px ?: number, py ?: number) {
 		switch (flag) {
 		    case Constants.BLOB_TYPE.USER: {
 			    this.mass = Constants.DEFAULT_BLOB_MASS;
@@ -33,7 +33,7 @@ class Blob {
 				this.color = this.generateColor();
 				this.posx = px;
 				this.posy = py;
-				this.id = null;
+				this.id = i;
 		    	break;
 		    }
 		    default: {
@@ -43,7 +43,7 @@ class Blob {
 			    this.color = this.generateColor();
 			    this.posx = Math.random() * Constants.WORLD_WIDTH;
 			    this.posy = Math.random() * Constants.WORLD_HEIGHT;
-			    this.id = null;
+			    this.id = i;
 		    }
 		}
 	}
@@ -77,7 +77,7 @@ class Blob {
 			this.vely = v1y;
 
 			// Create new blob with the properties
-			newBlobs[newBlobs.length] = new Blob(Constants.BLOB_TYPE.JETTISONED, m2, v2x, v2y, this.posx, this.posy, null);
+			newBlobs[newBlobs.length] = new Blob(Constants.BLOB_TYPE.JETTISONED, null, m2, v2x, v2y, this.posx, this.posy);
 		}
 
 		this.posx += this.velx;
